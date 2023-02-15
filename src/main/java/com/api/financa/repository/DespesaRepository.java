@@ -3,6 +3,7 @@ package com.api.financa.repository;
 import com.api.financa.model.entity.Despesa;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -42,5 +43,18 @@ public interface DespesaRepository extends JpaRepository<Despesa, Long> {
 
     @Query(value = "select sum(valor) as 'uber' from despesa where categoria_id in (3) and data_ref like '%202%' group by month(data_ref);", nativeQuery = true)
     List<Double> getUberValores();
+
+
+
+    @Query(value = "select * from despesa where categoria_id = :categoria_id and data_ref like :data_ref '%' ;", nativeQuery = true)
+    List<Despesa> readDespesaByMesAndCategoria(
+            @Param("data_ref") String data_ref,
+            @Param("categoria_id") int categoria_id
+    );
+
+    @Query(value = "select * from despesa where categoria_id in (1, 2, 3, 5) and data_ref like :data_ref '%' ;", nativeQuery = true)
+    List<Despesa> readAllDespesaByMes(
+            @Param("data_ref") String data_ref
+    );
 
 }

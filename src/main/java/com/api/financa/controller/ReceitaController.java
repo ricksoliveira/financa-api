@@ -2,7 +2,6 @@ package com.api.financa.controller;
 
 import com.api.financa.model.entity.Receita;
 import com.api.financa.service.ReceitaService;
-import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
