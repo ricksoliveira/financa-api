@@ -25,4 +25,6 @@ public class DespesaController {
         return ResponseEntity.status(HttpStatus.OK).body(despesaService.findAll());
     }
 
+    //TODO: RETORNAR DESPESAS USANDO CATEGORIA COMO PARAMETRO
+
 }
