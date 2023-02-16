@@ -6,7 +6,9 @@ import com.api.financa.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class DespesaService {
@@ -14,51 +16,98 @@ public class DespesaService {
     @Autowired
     DespesaRepository despesaRepository;
 
-    public List<Despesa> findAll() {
-        return despesaRepository.findAll();
+    public Map<String, Object> test() {
+        Map<String, Object> testResponse = new HashMap<>();
+        testResponse.put("teste", "seu valor aqui");
+        return testResponse;
     }
 
-    public List<Despesa> readDespesaByCategoriaCurrentMonth(int categoria_id) {
+    private double getSumValorDespesa(List<Despesa> desp){
+        double total = 0.0;
+        for(Despesa d : desp){
+            total += d.getValor();
+        }
+        return total;
+    }
+
+    public Map<String, Object> findAll() {
+
+        List<Despesa> despesas = despesaRepository.findAll();
+        List<String> meses = despesaRepository.getDespesaMeses();
+        Map<String, Object> despesasResponse = new HashMap<>();
+
+        despesasResponse.put("meses", meses);
+        despesasResponse.put("despesas", despesas);
+
+        double total = this.getSumValorDespesa((List<Despesa>) despesasResponse.get("despesas"));
+
+        despesasResponse.put("size", despesas.size());
+        despesasResponse.put("total", total);
+
+        return despesasResponse;
+    }
+
+    public Map<String, Object> readDespesaByCategoriaCurrentMonth(int categoria_id) {
 
         String queryString = Utils.DateUtils.getCurrentDateQueryString();
         List<Despesa> despesas = despesaRepository.readDespesaByMesAndCategoria(queryString, categoria_id);
+        Map<String, Object> despesasResponse = new HashMap<>();
 
-        double total = 0;
-        for(Despesa r : despesas){
-            total += r.getValor();
-        }
-        return despesas;
+        despesasResponse.put("despesas", despesas);
+
+        double total = this.getSumValorDespesa((List<Despesa>) despesasResponse.get("despesas"));
+
+        despesasResponse.put("size", despesas.size());
+        despesasResponse.put("total", total);
+
+        return despesasResponse;
     }
 
-    public List<Despesa> readAllDespesaCurrentMonth() {
+    public Map<String, Object> readAllDespesaCurrentMonth() {
 
         String queryString = Utils.DateUtils.getCurrentDateQueryString();
         List<Despesa> despesas = despesaRepository.readAllDespesaByMes(queryString);
+        Map<String, Object> despesasResponse = new HashMap<>();
 
-        double total = 0;
-        for(Despesa r : despesas){
-            total += r.getValor();
-        }
-        return despesas;
+        despesasResponse.put("despesas", despesas);
+
+        double total = this.getSumValorDespesa((List<Despesa>) despesasResponse.get("despesas"));
+
+        despesasResponse.put("size", despesas.size());
+        despesasResponse.put("total", total);
+
+        return despesasResponse;
     }
 
 
-    public List<Despesa> readDespesaByMesAndCategoria(String date, int categoria_id){
+    public Map<String, Object> readDespesaByMesAndCategoria(String date, int categoria_id){
+
         List<Despesa> despesas = despesaRepository.readDespesaByMesAndCategoria(date, categoria_id);
-        double total = 0;
-        for(Despesa r : despesas){
-            total += r.getValor();
-        }
-        return despesas;
+        Map<String, Object> despesasResponse = new HashMap<>();
+
+        despesasResponse.put("despesas", despesas);
+
+        double total = this.getSumValorDespesa((List<Despesa>) despesasResponse.get("despesas"));
+
+        despesasResponse.put("size", despesas.size());
+        despesasResponse.put("total", total);
+
+        return despesasResponse;
     }
 
-    public List<Despesa> readDespesaByMes(String data_ref){
+    public Map<String, Object> readDespesaByMes(String data_ref){
+
         List<Despesa> despesas = despesaRepository.readAllDespesaByMes(data_ref);
-        double total = 0;
-        for(Despesa r : despesas){
-            total += r.getValor();
-        }
-        return despesas;
+        Map<String, Object> despesasResponse = new HashMap<>();
+
+        despesasResponse.put("despesas", despesas);
+
+        double total = this.getSumValorDespesa((List<Despesa>) despesasResponse.get("despesas"));
+
+        despesasResponse.put("size", despesas.size());
+        despesasResponse.put("total", total);
+
+        return despesasResponse;
     }
 
 }

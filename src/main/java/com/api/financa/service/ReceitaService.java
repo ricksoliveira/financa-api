@@ -2,11 +2,13 @@ package com.api.financa.service;
 
 import com.api.financa.model.entity.Receita;
 import com.api.financa.repository.ReceitaRepository;
+import com.api.financa.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ReceitaService {
@@ -14,45 +16,61 @@ public class ReceitaService {
     @Autowired
     ReceitaRepository receitaRepository;
 
-    public List<Receita> findAll() {
-        return receitaRepository.findAll();
+    private double getSumValorReceita(List<Receita> rece){
+        double total = 0.0;
+        for(Receita r : rece){
+            total += r.getValor();
+        }
+        return total;
     }
 
-    public List<Receita> readReceitaCurrentMonth() {
+    public Map<String, Object> findAll() {
 
-        LocalDateTime now = LocalDateTime.now();
-        int year = now.getYear();
-        int month = now.getMonthValue();
-        String queryString;
+        List<Receita> receitas = receitaRepository.findAll();
+        List<String> meses = receitaRepository.getReceitaMeses();
+        Map<String, Object> receitasResponse = new HashMap<>();
 
-        if (month < 10){
-            queryString = year + "-0" + month;
-        }
-        else{
-            queryString = year + "-" + month;
-        }
+        receitasResponse.put("meses", meses);
+        receitasResponse.put("receitas", receitas);
 
+        double total = this.getSumValorReceita((List<Receita>) receitasResponse.get("receitas"));
+
+        receitasResponse.put("size", receitas.size());
+        receitasResponse.put("total", total);
+
+        return receitasResponse;
+    }
+
+    public Map<String, Object> readReceitaCurrentMonth() {
+
+        String queryString = Utils.DateUtils.getCurrentDateQueryString();
         List<Receita> receitas = receitaRepository.readReceitaByMonth(queryString);
+        Map<String, Object> receitasResponse = new HashMap<>();
 
-        double total = 0;
-        for(Receita r : receitas){
-            total += r.getValor();
-        }
+        receitasResponse.put("receitas", receitas);
 
-        return receitas;
+        double total = this.getSumValorReceita((List<Receita>) receitasResponse.get("receitas"));
 
+        receitasResponse.put("size", receitas.size());
+        receitasResponse.put("total", total);
+
+        return receitasResponse;
     }
 
 
-    public List<Receita> readReceitaByMonth(String date){
+    public Map<String, Object> readReceitaByMonth(String date){
+
         List<Receita> receitas = receitaRepository.readReceitaByMonth(date);
+        Map<String, Object> receitasResponse = new HashMap<>();
 
-        double total = 0;
-        for(Receita r : receitas){
-            total += r.getValor();
-        }
+        receitasResponse.put("receitas", receitas);
 
-        return receitas;
+        double total = this.getSumValorReceita((List<Receita>) receitasResponse.get("receitas"));
+
+        receitasResponse.put("size", receitas.size());
+        receitasResponse.put("total", total);
+
+        return receitasResponse;
     }
 
 }
