@@ -41,7 +41,7 @@ public class DespesaController {
 
     @GetMapping("/parcial/month")
     public ResponseEntity<Object> readDespesaByMesAndCategoria(@RequestParam @DateTimeFormat(pattern="yyyy-MM") String data_ref,
-                                                                      @RequestParam int categoria_id) {
+                                                               @RequestParam int categoria_id) {
         return ResponseEntity.status(HttpStatus.OK).body(despesaService.readDespesaByMesAndCategoria(data_ref, categoria_id));
     }
 
