@@ -1,6 +1,6 @@
 package com.api.financa.controller;
 
-import com.api.financa.model.SomaMeses;
+import com.api.financa.dto.SomaMesesDto;
 import com.api.financa.service.SomaMesesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,7 +21,7 @@ public class SomaMesesController {
     SomaMesesService somaMesesService;
 
     @GetMapping("/all")
-    public ResponseEntity<List<SomaMeses>> readAllSomaMeses(){
+    public ResponseEntity<List<SomaMesesDto>> readAllSomaMeses(){
         return ResponseEntity.status(HttpStatus.OK).body(somaMesesService.findAll());
     }
 }

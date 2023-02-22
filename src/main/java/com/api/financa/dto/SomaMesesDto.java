@@ -16,5 +16,6 @@ public class SomaMesesDto {
     private double mantimento;
     private double conta;
     private double outros;
+    private double lucro;
 
 }

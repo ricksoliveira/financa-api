@@ -1,7 +1,6 @@
 package com.api.financa.controller;
 
-import com.api.financa.dto.MesDto;
-import com.api.financa.service.DespesaService;
+import com.api.financa.service.MesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import java.util.Map;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -18,12 +17,11 @@ import java.util.List;
 public class MesController {
 
     @Autowired
-    DespesaService despesaService;
-
+    MesService mesService;
 
     @GetMapping("/groupmonths")
-    public ResponseEntity<List<MesDto>> listGroupByMonths(){
-        return ResponseEntity.status(HttpStatus.OK).body(despesaService.listGroupByMonths());
+    public ResponseEntity<Map<String, Object>> listGroupByMonths(){
+        return ResponseEntity.status(HttpStatus.OK).body(mesService.listGroupByMonths());
     }
 
 }

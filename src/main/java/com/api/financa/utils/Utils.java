@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 public class Utils {
 
+
     public static class DateUtils {
 
         public static String getCurrentDateQueryString(){
@@ -18,6 +19,8 @@ public class Utils {
                 return year + "-" + month;
             }
         }
+
+
     }
 
 

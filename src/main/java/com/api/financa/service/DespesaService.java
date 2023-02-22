@@ -1,6 +1,5 @@
 package com.api.financa.service;
 
-import com.api.financa.dto.MesDto;
 import com.api.financa.model.entity.Despesa;
 import com.api.financa.repository.DespesaRepository;
 import com.api.financa.utils.Utils;
@@ -111,15 +110,5 @@ public class DespesaService {
         return despesasResponse;
     }
 
-    public List<MesDto> listGroupByMonths() {
 
-        List<MesDto> mese = despesaRepository.listGroupByMonths();
-        Map<String, Object> mesesResponse = new HashMap<>();
-
-        mesesResponse.put("meses", mese);
-        mesesResponse.put("size", mese.size());
-
-        return mese;
-
-    }
 }
