@@ -25,7 +25,7 @@ public class DespesaController {
 
 
     @GetMapping("/all")
-    public ResponseEntity<Object> readAllDespesa(){
+    public ResponseEntity<Object> readAllDespesa() {
         return ResponseEntity.status(HttpStatus.OK).body(despesaService.findAll());
     }
 

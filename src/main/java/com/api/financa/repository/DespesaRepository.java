@@ -1,5 +1,6 @@
 package com.api.financa.repository;
 
+import com.api.financa.dto.MesDto;
 import com.api.financa.model.entity.Despesa;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -56,5 +57,10 @@ public interface DespesaRepository extends JpaRepository<Despesa, Long> {
     List<Despesa> readAllDespesaByMes(
             @Param("data_ref") String data_ref
     );
+
+
+
+    @Query(value = "select month(data_ref), year(data_ref), status from despesa where status = 'Fechado' group by data_ref;", nativeQuery = true)
+    List<MesDto> listGroupByMonths();
 
 }
