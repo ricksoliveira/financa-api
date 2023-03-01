@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface CategoriaRepository extends JpaRepository<Categoria, Long> {
 
@@ -18,5 +20,8 @@ public interface CategoriaRepository extends JpaRepository<Categoria, Long> {
     Categoria findByCategoriaCodigo(
             @Param("categoria_codigo") String categoria_codigo
     );
+
+    @Query(value = "SELECT * FROM categoria WHERE categoria_id NOT IN (4)", nativeQuery = true)
+    List<Categoria> getAllCategoriaDespesas();
 
 }

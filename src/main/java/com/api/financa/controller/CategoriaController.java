@@ -43,6 +43,11 @@ public class CategoriaController {
         return ResponseEntity.status(HttpStatus.OK).body(categoriaService.findAll());
     }
 
+    @GetMapping("/despesas")
+    public ResponseEntity<List<Categoria>> readCategoriaDespesa(){
+        return ResponseEntity.status(HttpStatus.OK).body(categoriaService.readCategoriaDespesa());
+    }
+
     @GetMapping("/count")
     public ResponseEntity<Long> countCategoria(){
         return ResponseEntity.status(HttpStatus.OK).body(categoriaService.getCount());

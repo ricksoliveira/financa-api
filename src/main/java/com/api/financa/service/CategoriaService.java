@@ -48,4 +48,8 @@ public class CategoriaService {
 
         return true;
     }
+
+    public List<Categoria> readCategoriaDespesa() {
+        return categoriaRepository.getAllCategoriaDespesas();
+    }
 }
