@@ -3,12 +3,14 @@ package com.api.financa.service;
 import com.api.financa.dto.SomaMesesDto;
 import com.api.financa.repository.DespesaRepository;
 import com.api.financa.repository.ReceitaRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Service
 public class SomaMesesService {
 
@@ -17,6 +19,15 @@ public class SomaMesesService {
 
     @Autowired
     ReceitaRepository receitaRepository;
+
+    private double findCorrespondente(String mes, int catSize, List<String> catMeses, List<Double> catValores){
+        for (int j = 0; j < catSize; j++) {
+            if(mes.equals(catMeses.get(j))){
+                return catValores.get(j);
+            }
+        }
+        return 0.0;
+    }
 
     public List<SomaMesesDto> findAll() {
 
@@ -78,16 +89,6 @@ public class SomaMesesService {
         }
 
         return somaMesesList;
-    }
-
-
-    public double findCorrespondente(String mes, int catSize, List<String> catMeses, List<Double> catValores){
-        for (int j = 0; j < catSize; j++) {
-            if(mes.equals(catMeses.get(j))){
-                return catValores.get(j);
-            }
-        }
-        return 0.0;
     }
 
 

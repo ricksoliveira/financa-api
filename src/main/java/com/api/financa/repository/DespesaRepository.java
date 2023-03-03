@@ -59,13 +59,13 @@ public interface DespesaRepository extends JpaRepository<Despesa, Long> {
 
 
 
-    @Query(value = "select month(data_ref) as 'mes' from despesa where status = 'Fechado' group by data_ref order by data_ref;", nativeQuery = true)
+    @Query(value = "select month(data_ref) as 'mes' from despesa where status = 'Fechado' group by month(data_ref) order by data_ref;", nativeQuery = true)
     List<Integer> getMesesMes();
 
-    @Query(value = "select year(data_ref) as 'ano' from despesa where status = 'Fechado' group by data_ref order by data_ref;", nativeQuery = true)
+    @Query(value = "select year(data_ref) as 'ano' from despesa where status = 'Fechado' group by month(data_ref) order by data_ref;", nativeQuery = true)
     List<Integer> getMesesAno();
 
-    @Query(value = "select status from despesa where status = 'Fechado' group by data_ref order by data_ref;", nativeQuery = true)
+    @Query(value = "select status from despesa where status = 'Fechado' group by month(data_ref) order by data_ref;", nativeQuery = true)
     List<String> getMesesStatus();
 
 

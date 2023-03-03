@@ -4,6 +4,7 @@ import com.api.financa.dto.CategoriaDto;
 import com.api.financa.model.entity.Categoria;
 import com.api.financa.service.CategoriaService;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/api/categoria")
@@ -25,12 +27,14 @@ public class CategoriaController {
     @PostMapping("/create")
     public ResponseEntity<Object> saveCategoria(@RequestBody @Valid CategoriaDto categoriaDto){
 
+        log.debug("Tentando salvar nova Categoria: [{}] ", categoriaDto);
+
         if(categoriaService.existsByCategoriaNome(categoriaDto.getCategoria_nome())){
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Erro: Já existe caterogia com este Nome !");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Erro: Já existe Caterogia com este Nome !");
         }
 
         if(categoriaService.existsByCategoriaCodigo(categoriaDto.getCategoria_codigo())){
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Erro: Já existe caterogia com este Codigo !");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Erro: Já existe Caterogia com este Codigo !");
         }
 
         Categoria categoria = new Categoria();
@@ -55,9 +59,11 @@ public class CategoriaController {
 
     @GetMapping("/{categoria_id}")
     public ResponseEntity<Object> readCategoriaById(@PathVariable(value = "categoria_id") Long categoria_id){
+
         Optional<Categoria> categoriaOptional = categoriaService.findById(categoria_id);
 
         if(!categoriaOptional.isPresent()){
+            log.warn("Categoria com ID [{}] não encontrada.", categoria_id);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Categoria não encontrada !");
         }
 
