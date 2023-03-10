@@ -3,6 +3,7 @@ package com.api.financa.service;
 import com.api.financa.model.entity.Despesa;
 import com.api.financa.repository.DespesaRepository;
 import com.api.financa.utils.Utils;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -161,4 +162,9 @@ public class DespesaService {
     }
 
 
+    @Transactional
+    public Despesa saveDespesa(Despesa despesa) {
+        log.debug("Salvando nova Despesa: [{}]", despesa);
+        return despesaRepository.save(despesa);
+    }
 }

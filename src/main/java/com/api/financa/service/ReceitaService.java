@@ -3,6 +3,7 @@ package com.api.financa.service;
 import com.api.financa.model.entity.Receita;
 import com.api.financa.repository.ReceitaRepository;
 import com.api.financa.utils.Utils;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -104,6 +105,13 @@ public class ReceitaService {
         receitasResponse.put("total", total);
 
         return receitasResponse;
+    }
+
+
+    @Transactional
+    public Receita saveReceita(Receita receita) {
+        log.debug("Salvando nova Receita: [{}]", receita);
+        return receitaRepository.save(receita);
     }
 
 }
