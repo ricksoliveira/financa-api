@@ -165,6 +165,9 @@ public class DespesaService {
     @Transactional
     public Despesa saveDespesa(Despesa despesa) {
         log.debug("Salvando nova Despesa: [{}]", despesa);
+        if (despesa.getCategoria_id() == 3 || despesa.getNota().equals("")){
+            despesa.setNota(null);
+        }
         return despesaRepository.save(despesa);
     }
 }

@@ -111,6 +111,9 @@ public class ReceitaService {
     @Transactional
     public Receita saveReceita(Receita receita) {
         log.debug("Salvando nova Receita: [{}]", receita);
+        if (receita.getCategoria_id() == 4 || receita.getNota().equals("")){
+            receita.setNota(null);
+        }
         return receitaRepository.save(receita);
     }
 
