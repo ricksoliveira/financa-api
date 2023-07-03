@@ -6,12 +6,15 @@ import com.api.financa.utils.Utils;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@EnableScheduling
 @Slf4j
 @Service
 public class DespesaService {
@@ -170,4 +173,13 @@ public class DespesaService {
         }
         return despesaRepository.save(despesa);
     }
+
+    // 0 0 0 1 * * (todos os primeiros dias do mes)
+//    @Scheduled(cron = "0 23 1 * * *")
+//    public void fecharDespesaMes(){
+//        int quantidadeDespesaAberta = despesaRepository.getQuantidadeDespesaAberta();
+//        log.debug("Fechando [{}] despesas abertas", quantidadeDespesaAberta);
+//        despesaRepository.fecharDespesaMes();
+//    }
+
 }

@@ -45,6 +45,8 @@ public class UsuarioService {
 
         if(optionalUsuario.isEmpty()){
             log.warn("Usuário [{}] não encontrado", usuarioDto.getUsername());
+            authUserResponse.put("nome", null);
+            authUserResponse.put("sobrenome", null);
             authUserResponse.put("status", HttpStatus.NOT_FOUND);
             authUserResponse.put("response", "Usuário não encontrado!");
             return authUserResponse;
@@ -61,12 +63,16 @@ public class UsuarioService {
                     .sign(Algorithm.HMAC512(TOKEN_SENHA));
 
             log.info("Usuário [{}] autenticado, iniciando login", usuarioDto.getUsername());
+            authUserResponse.put("nome", optionalUsuario.get().getNome());
+            authUserResponse.put("sobrenome", optionalUsuario.get().getSobrenome());
             authUserResponse.put("status", status);
             authUserResponse.put("response", token);
             return authUserResponse;
         }
         else{
             log.info("Usuário [{}] não autenticado. Senha incorreta", usuarioDto.getUsername());
+            authUserResponse.put("nome", optionalUsuario.get().getNome());
+            authUserResponse.put("sobrenome", optionalUsuario.get().getSobrenome());
             authUserResponse.put("status", status);
             authUserResponse.put("response", "Senha incorreta!");
             return authUserResponse;

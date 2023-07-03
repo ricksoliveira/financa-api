@@ -17,6 +17,12 @@ public class Usuario {
     private Long usuario_id;
 
     @Column(unique = true, length = 50)
+    private String nome;
+
+    @Column(unique = true, length = 50)
+    private String sobrenome;
+
+    @Column(unique = true, length = 50)
     private String username;
 
     @Column(unique = true, length = 100)
